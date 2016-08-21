@@ -87,7 +87,9 @@ public class ForecastFragment extends Fragment {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=50.8504500&lon=4.3487800&mode=json&units=metric&cnt=7&appid=32a731bb6ca8796f6f02b9d91379de3e");
+                String baseURL = "http://api.openweathermap.org/data/2.5/forecast?lat=50.8504500&lon=4.3487800&mode=json&units=metric&cnt=7";
+                String apiKey = "&appid=" + BuildConfig.OPEN_WEATHER_MAP_API_KEY;
+                URL url = new URL(baseURL.concat(apiKey));
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
