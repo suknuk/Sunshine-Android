@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Sunshine</string>
-    <string name="action_settings">action setting</string>
+    <string name="action_settings">Settings</string>
 </resources>
