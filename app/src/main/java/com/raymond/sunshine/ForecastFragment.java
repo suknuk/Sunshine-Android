@@ -36,6 +36,8 @@ import java.util.List;
 
 public class ForecastFragment extends Fragment {
 
+    private ArrayAdapter<String> mForecastAdapter;
+
     /*
     Runs when class is created
      */
@@ -83,7 +85,7 @@ public class ForecastFragment extends Fragment {
 
         List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
-        ArrayAdapter<String> mForecastAdapter = new ArrayAdapter<String>(
+        mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
@@ -97,7 +99,6 @@ public class ForecastFragment extends Fragment {
     }
 
     public class FetchWeatherTask extends AsyncTask<String,Void,String[]>{
-
 
         public final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -145,7 +146,7 @@ public class ForecastFragment extends Fragment {
                         .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                         .build();
 
-                Log.i(LOG_TAG, "The URL String: " + buildUri.toString());
+                Log.v(LOG_TAG, "The URL String: " + buildUri.toString());
 
                 URL url = new URL(buildUri.toString());
 
@@ -177,7 +178,7 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
-                Log.i(LOG_TAG, "Forecast JSON String: " + forecastJsonStr);
+                Log.v(LOG_TAG, "Forecast JSON String: " + forecastJsonStr);
 
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
@@ -305,6 +306,19 @@ public class ForecastFragment extends Fragment {
             }
             return resultStrs;
 
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+
+            if (result != null){
+                mForecastAdapter.clear();
+                for (String weatherForecastDay : result){
+                    mForecastAdapter.add(weatherForecastDay);
+                }
+            }
+
+            Log.i(LOG_TAG, "filling new forecast data");
         }
     }
 }
